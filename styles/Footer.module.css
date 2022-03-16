@@ -1,0 +1,32 @@
+.container{
+  width: 90%;
+  height: 300px;
+  padding-top: 100px;
+  margin: 0 auto;
+}
+
+.line_area{
+  margin: 0 auto;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.link_list {
+  padding-inline-start: 0px;
+  display: flex;
+  list-style: none;
+  cursor: pointer;
+}
+
+.link_list li{
+  margin-left: 50px;
+  font-size: 14px;
+}
+
+.inner_renew{
+  margin-left: 50px;
+  font-style: normal;
+  font-size: 14px;
+  color: #8c8c8c;
+  
+}
