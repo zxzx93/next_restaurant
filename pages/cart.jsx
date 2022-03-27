@@ -6,7 +6,7 @@ const Cart = () => {
     <div className={styles.container}>
       <div className={styles.left}>
         <table className={styles.table}>
-          <tr>
+          <tr className={styles.trTitle}>
             <th>product</th>
             <th>name</th>
             <th>extras</th>
@@ -15,7 +15,37 @@ const Cart = () => {
             <th>Total</th>
           </tr>
 
-          <tr>
+          <tr className={styles.tr}>
+            <td>
+              <div className={styles.imgContainer}>
+                <Image
+                  src="/image/pizza.png"
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            </td>
+            <td>
+              <span className={styles.name}>coraljo</span>
+            </td>
+            <td>
+              <span className={styles.extras}>
+                Double ingredient, spicy sauce
+              </span>
+            </td>
+            <td>
+              <span className={styles.price}>29000원</span>
+            </td>
+            <td>
+              <span className={styles.quantity}>2</span>
+            </td>
+            <td>
+              <span className={styles.total}>29000원</span>
+            </td>
+          </tr>
+          
+          <tr className={styles.tr}>
             <td>
               <div className={styles.imgContainer}>
                 <Image

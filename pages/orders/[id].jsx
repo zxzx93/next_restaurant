@@ -17,14 +17,14 @@ const Order = () => {
     <div className={styles.container}>
       <div className={styles.left}>
         <table className={styles.table}>
-          <tr>
+          <tr className={styles.trTitle}>
             <th>Order Id</th>
             <th>Customer</th>
             <th>Address</th>
             <th>Total</th>
           </tr>
 
-          <tr>
+          <tr className={styles.tr}> 
             <td>
               <span className={styles.id}>123456789</span>
             </td>
