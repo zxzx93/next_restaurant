@@ -1,7 +1,7 @@
 import styles from "../styles/PizzaList.module.css";
 import PizzaCard from "./PizzaCard";
 
-function PizzaList(props) {
+const PizzaList = ({ pizzaList }) => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>프리미엄 피자</h1>
@@ -10,17 +10,12 @@ function PizzaList(props) {
       </p>
 
       <div className={styles.wrapper}>
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
-        <PizzaCard />
+        {pizzaList.map((pizza) => (
+          <PizzaCard key={pizza._id} pizza={pizza} />
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default PizzaList;
