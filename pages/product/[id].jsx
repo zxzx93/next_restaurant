@@ -6,7 +6,6 @@ import styles from "../../styles/Product.module.css";
 import { priceToString } from "../../common/utill/common";
 
 const Product = ({ pizza }) => {
-  console.log(pizza, "디테일 페이지 피자");
   const [price, setPrice] = useState(pizza.prices[0]);
   const [size, setSize] = useState(0);
 
@@ -124,7 +123,6 @@ export const getServerSideProps = async ({ params }) => {
   const res = await axios.get(
     `http://localhost:3000/api/products/${params.id}`
   );
-  console.log("파라미터", res);
 
   return { props: { pizza: res.data } };
 };
