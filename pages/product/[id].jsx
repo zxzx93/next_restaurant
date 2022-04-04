@@ -1,15 +1,19 @@
 import { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import styles from "../../styles/Product.module.css";
 import { priceToString } from "../../common/utill/common";
+import { addProduct } from "../../redux/cartSlice";
 
 const Product = ({ pizza }) => {
   const [price, setPrice] = useState(pizza.prices[0]); //피자가격
   const [size, setSize] = useState(0); //피자 사이즈 인덱스
   const [extras, setExtras] = useState([]); //피자 옵션
-  const [quentity, setQuentity] = useState(1); //피자 주문 수량
+  const [quantity, setQuantity] = useState(1); //피자 주문 수량
+
+  const dispatch = useDispatch();
 
   const changePrice = (number) => {
     setPrice(price + number);
@@ -31,6 +35,10 @@ const Product = ({ pizza }) => {
       changePrice(-option.price);
       setExtras(extras.filter((extra) => extra._id !== option._id));
     }
+  };
+
+  const handelClick = () => {
+    dispatch(addProduct({...pizza, extras, price, quantity}));
   };
 
   return (
@@ -114,8 +122,18 @@ const Product = ({ pizza }) => {
         </div>
 
         <div className={styles.add}>
-          <input type="number" className={styles.quantity} defaultValue={1} vlaue={quentity} onChange={(e)=>{setQuentity(e.target.value)}}/>
-          <button className={styles.button}>장바구니</button>
+          <input
+            type="number"
+            className={styles.quantity}
+            defaultValue={1}
+            vlaue={quantity}
+            onChange={(e) => {
+              setQuantity(e.target.value);
+            }}
+          />
+          <button className={styles.button} onClick={handelClick}>
+            장바구니
+          </button>
         </div>
       </div>
     </div>
