@@ -6,12 +6,15 @@ import styles from "../../styles/Product.module.css";
 import { priceToString } from "../../common/utill/common";
 
 const Product = ({ pizza }) => {
-  const [price, setPrice] = useState(pizza.prices[0]);
-  const [size, setSize] = useState(0);
+  const [price, setPrice] = useState(pizza.prices[0]); //피자가격
+  const [size, setSize] = useState(0); //피자 사이즈 인덱스
+  const [extras, setExtras] = useState([]); //피자 옵션
+  const [quentity, setQuentity] = useState(1); //피자 주문 수량
 
   const changePrice = (number) => {
     setPrice(price + number);
   };
+
   const handleSize = (sizeIndex) => {
     const difference = pizza.prices[sizeIndex] - pizza.prices[size];
     setSize(sizeIndex);
@@ -23,8 +26,10 @@ const Product = ({ pizza }) => {
 
     if (checked) {
       changePrice(option.price);
+      setExtras((prev) => [...prev, option]);
     } else {
       changePrice(-option.price);
+      setExtras(extras.filter((extra) => extra._id !== option._id));
     }
   };
 
@@ -109,7 +114,7 @@ const Product = ({ pizza }) => {
         </div>
 
         <div className={styles.add}>
-          <input type="number" className={styles.quantity} defaultValue={1} />
+          <input type="number" className={styles.quantity} defaultValue={1} vlaue={quentity} onChange={(e)=>{setQuentity(e.target.value)}}/>
           <button className={styles.button}>장바구니</button>
         </div>
       </div>
