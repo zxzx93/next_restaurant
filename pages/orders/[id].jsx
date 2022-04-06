@@ -1,17 +1,21 @@
 import Image from "next/image";
-import styles from "../../styles/Order.module.css";
+import axios from "axios";
 import { useRouter } from "next/router";
 
-const Order = () => {
-  const router = useRouter();
-  const { id } = router.query;
+import styles from "../../styles/Order.module.css";
+import { priceToString } from "../../common/utill/common";
 
-  const status = 0;
-  const statusClass = (idx)=>{
-    if(idx-status < 1) return styles.done;
-    if(idx-status === 1) return styles.inProgress;
-    if(idx-status > 1) return styles.undone;
-  }
+const Order = ({ order }) => {
+  const router = useRouter();
+
+  const { id } = router.query;
+  const status = order.status;
+
+  const statusClass = (idx) => {
+    if (idx - status < 1) return styles.done;
+    if (idx - status === 1) return styles.inProgress;
+    if (idx - status > 1) return styles.undone;
+  };
 
   return (
     <div className={styles.container}>
@@ -24,18 +28,20 @@ const Order = () => {
             <th>Total</th>
           </tr>
 
-          <tr className={styles.tr}> 
+          <tr className={styles.tr}>
             <td>
-              <span className={styles.id}>123456789</span>
+              <span className={styles.id}>{order._id}</span>
             </td>
             <td>
-              <span className={styles.name}>vicky</span>
+              <span className={styles.name}>{order.customer}</span>
             </td>
             <td>
-              <span className={styles.Address}>서울시 관악구</span>
+              <span className={styles.Address}>{order.address}</span>
             </td>
             <td>
-              <span className={styles.total}>29000원</span>
+              <span className={styles.total}>
+                {priceToString(order.total)}원
+              </span>
             </td>
           </tr>
         </table>
@@ -45,28 +51,52 @@ const Order = () => {
             <Image src="/image/paid.png" alt="" width={30} height={30} />
             <span>Payment</span>
             <div className={styles.checkedIcon}>
-              <Image className={styles.checkedIcon} src="/image/checked.png" alt="" width={20} height={20} />
+              <Image
+                className={styles.checkedIcon}
+                src="/image/checked.png"
+                alt=""
+                width={20}
+                height={20}
+              />
             </div>
           </div>
           <div className={statusClass(1)}>
             <Image src="/image/cooking.png" alt="" width={30} height={30} />
             <span>Preparing</span>
             <div className={styles.checkedIcon}>
-              <Image className={styles.checkedIcon} src="/image/checked.png" alt="" width={20} height={20} />
+              <Image
+                className={styles.checkedIcon}
+                src="/image/checked.png"
+                alt=""
+                width={20}
+                height={20}
+              />
             </div>
           </div>
           <div className={statusClass(2)}>
-          <Image src="/image/bike.png" alt="" width={30} height={30} />
+            <Image src="/image/bike.png" alt="" width={30} height={30} />
             <span>on the way</span>
             <div className={styles.checkedIcon}>
-              <Image className={styles.checkedIcon} src="/image/checked.png" alt="" width={20} height={20} />
+              <Image
+                className={styles.checkedIcon}
+                src="/image/checked.png"
+                alt=""
+                width={20}
+                height={20}
+              />
             </div>
           </div>
           <div className={statusClass(2)}>
-          <Image src="/image/delivered.png" alt="" width={30} height={30} />
+            <Image src="/image/delivered.png" alt="" width={30} height={30} />
             <span>Delivered</span>
             <div className={styles.checkedIcon}>
-              <Image className={styles.checkedIcon} src="/image/checked.png" alt="" width={20} height={20} />
+              <Image
+                className={styles.checkedIcon}
+                src="/image/checked.png"
+                alt=""
+                width={20}
+                height={20}
+              />
             </div>
           </div>
         </div>
@@ -76,13 +106,13 @@ const Order = () => {
         <div className={styles.wrapper}>
           <h2 className={styles.title}>CART TOTAL</h2>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>SubTotal : </b>$79.09
+            <b className={styles.totalTextTitle}>SubTotal : </b>{order.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Discount : </b>$79.09
+            <b className={styles.totalTextTitle}>Discount : </b>{order.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Total : </b>$79.09
+            <b className={styles.totalTextTitle}>Total : </b>{order.total}
           </div>
 
           <button className={styles.button} disabled>
@@ -92,6 +122,15 @@ const Order = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`);
+  return {
+    props: {
+      order: res.data,
+    },
+  };
 };
 
 export default Order;
