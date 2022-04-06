@@ -12,6 +12,7 @@ import {
 import { priceToString } from "../common/utill/common";
 import styles from "../styles/Cart.module.css";
 import { reset } from "../redux/cartSlice";
+import OrderDetail from "../components/OrderDetail";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -190,6 +191,8 @@ const Cart = () => {
           )}
         </div>
       </div>
+
+      {cash && <OrderDetail total={cart.total} createOrder={createOrder} />}
     </div>
   );
 };

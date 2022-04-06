@@ -106,13 +106,16 @@ const Order = ({ order }) => {
         <div className={styles.wrapper}>
           <h2 className={styles.title}>CART TOTAL</h2>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>SubTotal : </b>{order.total}
+            <b className={styles.totalTextTitle}>SubTotal : </b>
+            {order.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Discount : </b>{order.total}
+            <b className={styles.totalTextTitle}>Discount : </b>
+            {order.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Total : </b>{order.total}
+            <b className={styles.totalTextTitle}>Total : </b>
+            {order.total}
           </div>
 
           <button className={styles.button} disabled>
@@ -126,6 +129,7 @@ const Order = ({ order }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`);
+  
   return {
     props: {
       order: res.data,
