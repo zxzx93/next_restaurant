@@ -11,8 +11,6 @@ const Index = ({ products, orders }) => {
 
   const status = ["준비 중", "배달 중", "배달 완료"];
 
-  console.log(orderList);
-
   //피자 삭제
   const handleDelete = async (id) => {
     try {
@@ -129,7 +127,15 @@ const Index = ({ products, orders }) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  const myCookie = context.req?.cookies || "";
+
+  if (myCookie.token !== process.env.TOKEN) {
+    return {
+      redirect: { destination: "/admin/login", permanent: false },
+    };
+  }
+
   const productRes = await axios.get("http://localhost:3000/api/products");
   const orderRes = await axios.get("http://localhost:3000/api/orders");
 
