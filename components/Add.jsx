@@ -4,12 +4,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const Add = ({ setClose }) => {
-  const [file, setFile] = useState(null);
-  const [title, setTitle] = useState(null);
-  const [desc, setDesc] = useState(null);
-  const [prices, setPrices] = useState([]);
-  const [extra, setExtra] = useState(null);
-  const [extraOptions, setExtraOptions] = useState([]);
+  const [file, setFile] = useState(null); //피자 이미지
+  const [title, setTitle] = useState(null); //피자 이름
+  const [desc, setDesc] = useState(null); //피자 설명
+  const [prices, setPrices] = useState([]); //피자 가격
+  const [extra, setExtra] = useState(null); //피자 옵션 인풋
+  const [extraOptions, setExtraOptions] = useState([]); //add 한 피자 옵션 이름, 가격
 
   const changePrice = (e, idx) => {
     const currentPrices = prices;
@@ -17,15 +17,32 @@ const Add = ({ setClose }) => {
     setPrices(currentPrices);
   };
 
-  const handelExtraInput = (e) => {
+  const handleExtraInput = (e) => {
     setExtra({ ...extra, [e.target.name]: e.target.value });
   };
 
-  const handleExtra = (e) => {
+  const handleExtra = () => {
     setExtraOptions((prev) => [...prev, extra]);
   };
 
-  const handleCreate = async (e) => {
+  //새로운 피자 등록
+  const handleCreate = async () => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "uploads");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dql6wigdn/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      const newProduct = { title, desc, prices, img: url, extraOptions };
+      console.log(newProduct);
+      await axios.post("http://localhost:3000/api/products", newProduct);
+      setClose(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -50,9 +67,9 @@ const Add = ({ setClose }) => {
         </div>
         <div className={styles.item}>
           <label className={styles.label}>Desc</label>
-          <input
+          <textarea
             className={styles.input}
-            row={4}
+            rows={4}
             type="text"
             onChange={(e) => setDesc(e.target.value)}
           />
@@ -90,14 +107,14 @@ const Add = ({ setClose }) => {
               type="text"
               placeholder="Item"
               name="text"
-              onChange={(e) => handelExtraInput(e)}
+              onChange={(e) => handleExtraInput(e)}
             />
             <input
               className={`${styles.input}${styles.inputSm}`}
               type="number"
-              placeholder="Price"
-              name="Price"
-              onChange={(e) => handelExtraInput(e)}
+              placeholder="price"
+              name="price"
+              onChange={(e) => handleExtraInput(e)}
             />
 
             <button className={styles.extraButton} onClick={handleExtra}>
