@@ -37,7 +37,6 @@ const Add = ({ setClose }) => {
       );
       const { url } = uploadRes.data;
       const newProduct = { title, desc, prices, img: url, extraOptions };
-      console.log(newProduct);
       await axios.post("http://localhost:3000/api/products", newProduct);
       setClose(true);
     } catch (err) {
@@ -51,14 +50,14 @@ const Add = ({ setClose }) => {
         <span onClick={() => setClose(true)} className={styles.close}>
           X
         </span>
-        <h1>Add a new Pizza</h1>
+        <h1>피자 상품 올리기</h1>
         <div className={styles.item}>
-          <label className={styles.label}>Choose an image</label>
+          <label className={styles.label}>이미지 선택</label>
           <input type="file" onChange={(e) => setFile(e.target.files[0])} />
         </div>
 
         <div className={styles.item}>
-          <label className={styles.label}>Title</label>
+          <label className={styles.label}>이름</label>
           <input
             className={styles.input}
             type="text"
@@ -66,7 +65,7 @@ const Add = ({ setClose }) => {
           />
         </div>
         <div className={styles.item}>
-          <label className={styles.label}>Desc</label>
+          <label className={styles.label}>설명</label>
           <textarea
             className={styles.input}
             rows={4}
@@ -76,7 +75,7 @@ const Add = ({ setClose }) => {
         </div>
 
         <div className={styles.item}>
-          <label className={styles.label}>Prices</label>
+          <label className={styles.label}>가격</label>
           <div className={styles.priceContainer}>
             <input
               className={`${styles.input} ${styles.inputSm}`}
@@ -100,7 +99,7 @@ const Add = ({ setClose }) => {
         </div>
 
         <div className={styles.item}>
-          <label className={styles.label}>Extra</label>
+          <label className={styles.label}>옵션</label>
           <div className={styles.extra}>
             <input
               className={`${styles.input}${styles.inputSm}`}
@@ -118,7 +117,7 @@ const Add = ({ setClose }) => {
             />
 
             <button className={styles.extraButton} onClick={handleExtra}>
-              Add
+              추가
             </button>
           </div>
 
@@ -131,7 +130,7 @@ const Add = ({ setClose }) => {
           </div>
 
           <button className={styles.addButton} onClick={handleCreate}>
-            create
+            피자 추가
           </button>
         </div>
       </div>
